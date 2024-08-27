@@ -19,7 +19,9 @@ HTTP_EXCEPTIONS = {
 
 class ErrorHandlingMiddleware(BaseHTTPMiddleware):
 
-    async def dispatch(self, request: FastApiRequest, call_next: RequestResponseEndpoint) -> Response:
+    async def dispatch(
+        self, request: FastApiRequest, call_next: RequestResponseEndpoint
+    ) -> Response:
         try:
             response = await call_next(request)
             return response
@@ -28,14 +30,10 @@ class ErrorHandlingMiddleware(BaseHTTPMiddleware):
             return JSONResponse(
                 status_code=code,
                 content=jsonable_encoder(
-                    {
-                        "detail": HTTP_EXCEPTIONS.get(code),
-                        "message": str(error.args[0])
-                    }
+                    {"detail": HTTP_EXCEPTIONS.get(code), "message": str(error.args[0])}
                 ),
             )
 
 
 def setup_middleware(app: FastAPI):
     app.add_middleware(ErrorHandlingMiddleware)  # noqa type: ignore
-    # ...

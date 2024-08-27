@@ -34,7 +34,7 @@ class Base(DeclarativeBase):
         schema=PostgresSettings().postgres_schema,
         quote_schema=True,
     )
-    __table_args__ = {'extend_existing': True}
+    __table_args__ = {"extend_existing": True}
 
 
 class PostgresAccessor:
@@ -74,7 +74,9 @@ class PostgresAccessor:
         return select(model)
 
     @staticmethod
-    def get_query_select_by_fields(select_field: MappedColumn, *select_fields: MappedColumn) -> Query:
+    def get_query_select_by_fields(
+        select_field: MappedColumn, *select_fields: MappedColumn
+    ) -> Query:
         return select(select_field, *select_fields)
 
     @staticmethod

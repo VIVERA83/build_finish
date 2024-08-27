@@ -45,7 +45,9 @@ class CategoryModel(Base, BaseModel):
     __tablename__ = "categories"
 
     title: Mapped[str] = mapped_column(unique=True)
-    products: Mapped[List["ProductModel"]] = relationship("ProductModel", lazy="selectin", cascade="delete")
+    products: Mapped[List["ProductModel"]] = relationship(
+        "ProductModel", lazy="selectin", cascade="delete"
+    )
     description: Mapped[str] = mapped_column(server_default="Описание категории.")
 
 
@@ -54,7 +56,9 @@ class BrandModel(Base, BaseModel):
     __tablename__ = "brands"
 
     title: Mapped[str] = mapped_column(unique=True)
-    products: Mapped[List["ProductModel"]] = relationship("ProductModel", lazy="selectin", cascade="delete")
+    products: Mapped[List["ProductModel"]] = relationship(
+        "ProductModel", lazy="selectin", cascade="delete"
+    )
     description: Mapped[str] = mapped_column(server_default="Описание производителя.")
 
 
@@ -66,5 +70,9 @@ class ProductModel(Base, BaseModel):
     description: Mapped[str] = mapped_column(server_default="Описание товара.")
     price: Mapped[float] = mapped_column(nullable=False)
 
-    category: Mapped[UUID] = mapped_column(ForeignKey("categories.id", ondelete="CASCADE"), nullable=False, index=True)
-    brand: Mapped[UUID] = mapped_column(ForeignKey("brands.id", ondelete="CASCADE"), nullable=False, index=True)
+    category: Mapped[UUID] = mapped_column(
+        ForeignKey("categories.id", ondelete="CASCADE"), nullable=False, index=True
+    )
+    brand: Mapped[UUID] = mapped_column(
+        ForeignKey("brands.id", ondelete="CASCADE"), nullable=False, index=True
+    )
