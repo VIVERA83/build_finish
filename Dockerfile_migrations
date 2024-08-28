@@ -13,7 +13,7 @@ ENV POSTGRES_PORT=""
 ENV POSTGRES_SCHEMA=""
 
 RUN pip install --upgrade pip  --no-cache-dir
-COPY requirements.txt .
+COPY temp/requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 COPY build_finish build_finish

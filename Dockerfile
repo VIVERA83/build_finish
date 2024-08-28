@@ -18,13 +18,15 @@ ENV POSTGRES_HOST="host.docker.internal"
 ENV POSTGRES_PORT=""
 ENV POSTGRES_SCHEMA=""
 
-RUN pip install --upgrade pip  --no-cache-dir
-COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
-
 COPY build_finish .
 
 RUN echo "Внимание: не забудьте указать актуальные переменные среды для подключения к базе данных Postgresql".
 RUN echo "Пример запуска контейнера: docker run --rm -it -p 5432:5432 -e POSTGRES_DB=test_db -e POSTGRES_USER=test_user -e POSTGRES_PASSWORD=test_pass -e -e POSTGRES_PORT=5432 POSTGRES_SCHEMA=postgres myapp"
+
+RUN pip install --upgrade pip  --no-cache-dir
+RUN pip install "poetry"
+COPY pyproject.toml .
+RUN poetry config virtualenvs.create false
+RUN poetry install
 
 CMD uvicorn $UVICORN_ARGS
